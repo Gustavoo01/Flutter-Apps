@@ -30,20 +30,29 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List <Widget> scoreKeeper = [];
-  int score = 0;
 
   void checkAnswer(bool userPickedAnswer) {
     bool correctAnswer = quizBrain.getQuestionAnswer();
 
     setState(() {
       if(quizBrain.isFinished()) {
-        Alert(context: context, title: 'Congratulations!', desc: 'Você acertou $score perguntas').show();
+        Alert(context: context, title: 'Congratulations!', desc: 'You finished the Quiz!',
+          buttons: [
+            DialogButton(
+              child: Text(
+                "Again?",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () => Navigator.pop(context),
+              width: 120,
+            )
+          ],
+        ).show();
         quizBrain.reset(scoreKeeper);
       }
 
       if(correctAnswer == userPickedAnswer) {
         scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-        score++;
       } else {
         scoreKeeper.add(Icon(Icons.close, color: Colors.red));
       }
